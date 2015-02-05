@@ -65,3 +65,39 @@ const (
 	Thing2 = "I am another const"
 	Thing3 = "I am a const declared in a block"
 )
+
+
+/**
+*	Pointers and suchlike...
+*/
+func PointerExample() {
+
+	value := "a string"
+	pointer := &value
+	*pointer = "changed the string"
+}
+
+
+/**
+*	A simple little struct
+*/
+type AStruct struct {
+	IntegerVar int
+	StringVar string
+}
+
+/**
+*	Exemplifies different struct allocation sytanxes and struct pointer
+* 	transparency
+*/
+func StructExample(){
+
+	struct1 := AStruct{1, "string me"}
+	struct2 := AStruct{StringVar: "stringme", IntegerVar: 1}
+	pointerToStruct1 := &struct1
+
+	fmt.Printf(string(struct1.IntegerVar))
+	fmt.Printf(struct2.StringVar)
+	fmt.Printf(pointerToStruct1.StringVar)
+
+}
