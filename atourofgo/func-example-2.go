@@ -1,6 +1,8 @@
 
 package atourofgo
 
+import "fmt"
+
 /**
 *	Example of multiple return values; returns both of the given string args
 *	in reverse order.
@@ -24,4 +26,15 @@ func Split(sum int) (x, y, z int) {
 	y = x / 2
 	z = sum - x - y
 	return
+}
+
+
+/**
+*	Demonstrates using `defer` to defer function calls
+*/
+func Defer() {
+
+	defer fmt.Println("I'm being defered")
+	fmt.Println("I'm not defered")
+	
 }
