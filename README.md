@@ -2,7 +2,7 @@
 
 As much as I love ZendFramework 2, I'm getting a bit tired of PHP in general. In the ongoing pursuit to continually up my game I've decided to start learning GoLang for my backend web endeavours.
 
-This repo hosts a collection random applications that I've built in order to familiarise myself with the Go language and related libraries.
+This repo hosts a collection random snippets of go code that I've written in order to familiarise myself with the language syntax and APIs.
 
 
 ###Reading List
@@ -18,4 +18,3 @@ This repo hosts a collection random applications that I've built in order to fam
 - Find an IDE
 - Explore the Testing, Benchmarking and Example framework that comes with Go
 - Find a web framework
-
