@@ -29,3 +29,13 @@ func Convert(integer int) (float64, string) {
 	stringValue := string(integer)
 	return floatValue, stringValue
 }
+
+
+/**
+* Const declarations
+*/
+const Thing = "I am a constant"
+const (
+	Thing2 = "I am another const"
+	Thing3 = "I am a const declared in a block"
+)
