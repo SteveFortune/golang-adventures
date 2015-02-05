@@ -11,3 +11,11 @@ This repo hosts a collection random applications that I've built in order to fam
 - `A Tour of Go`
 - `The Go Programming Language Specification`
 - `Effective Go`
+
+
+###Other Objectives
+
+- Find an IDE
+- Explore the Testing, Benchmarking and Example framework that comes with Go
+- Find a web framework
+
