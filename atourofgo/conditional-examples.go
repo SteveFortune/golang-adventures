@@ -12,7 +12,7 @@ import (
 */
 
 func IfExample1(item int) bool {
-	if item < rand.Intn() {
+	if item < rand.Intn(2) {
 		return false
 	}
 	return true
@@ -22,12 +22,11 @@ func IfExample1(item int) bool {
 *	Redundant, obselete function that demonstrates a simple if statement with
 *	a short statement.
 */
-func IfExample2(item int) bool {
-	if pow := math.Pow(2); pow < rand.Intn() {
+func IfExample2(item float64) bool {
+	if pow := int(math.Pow(item, 2)); pow < rand.Intn(2) {
 		return false
-	}
-	else{
-		fmt.Printf('Pow %q', pow)
+	} else {
+		fmt.Printf("Pow %q", pow)
 	}
 	return true
 }
@@ -36,9 +35,9 @@ func IfExample2(item int) bool {
 /**
 *	Another haleriously redundant example function demonstrating switch syntax
 */
-func SwitchExample1(item int) string{
+func SwitchExample1(item float64) {
 
-	switch pow = math.Pow(2) ; pow {
+	switch pow := int(math.Pow(item, 2)) ; pow {
 		case 4:
 			fmt.Println("Its four !")
 		case 9:
