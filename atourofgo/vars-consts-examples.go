@@ -101,3 +101,51 @@ func StructExample(){
 	fmt.Printf(pointerToStruct1.StringVar)
 
 }
+
+/**
+*	An array of strings
+*/
+var array [12]string
+
+/**
+*	Example function of assigning values at array indeces
+*/
+func ArrayExample() {
+	array[0] = "first string value"
+	array[1] = "second string value"
+}
+
+/**
+*	A slice of integers
+*/
+var slice []int = []int{1, 2, 3}
+
+/**
+*	Hey look ! The zero value for a slice is nil.
+*/
+var aNilSlice []int = nil;
+
+/**
+*	Example function that iterates over a slice
+*/
+func IterateSlice(sliceIter []string) {
+	for i := 0; i < len(sliceIter); i++ {
+		fmt.Printf(sliceIter[i])
+	}
+}
+
+/**
+*	Exmaple function that slices a slice in half
+*/
+func SliceInHalf(sliceMe []int) ([]int, []int) {
+	length := len(sliceMe)
+	halfWay := length/2
+	return sliceMe[0: halfWay], sliceMe[halfWay: length]
+}
+
+/**
+*	Creates an int slice with 4 0-d values and a capacity of 7
+*/
+func MakeMeASlice() []int {
+	return make([]int, 4, 7)
+}
