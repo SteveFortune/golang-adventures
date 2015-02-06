@@ -154,7 +154,7 @@ func MakeMeASlice() []int {
 /**
 *	Exemplifies appendation
 */
-fund AddToSlice(appendToMe []int) []int {
+func AddToSlice(appendToMe []int) []int {
 
 	appendToMe = append(appendToMe, 123)
 	appendToMe = append(appendToMe, 1, 2, 3)
@@ -167,12 +167,30 @@ fund AddToSlice(appendToMe []int) []int {
 */
 func RangeLoopMe(loopMe []string) {
 	for i, value := range loopMe {
-		fmt.Printf('%d, %q', i, value)
+		fmt.Printf("%d, %q", i, value)
 	}
 	for i := range loopMe {
-		fmt.Printf('%d', i)
+		fmt.Printf("%d", i)
 	}
 	for _, value := range loopMe {
-		fmt.Printf('%q', value)
+		fmt.Printf("%q", value)
 	}
+}
+
+
+/**
+*	Map example
+*/
+var dictionary = map[string] struct {
+	Property int
+	AnotherProperty string
+}{
+	"First thing": {
+		Property: 1,
+		AnotherProperty: "thing",
+	},
+	"Second thing": {
+		Property: 2,
+		AnotherProperty: "another thing",
+	},
 }
