@@ -149,3 +149,30 @@ func SliceInHalf(sliceMe []int) ([]int, []int) {
 func MakeMeASlice() []int {
 	return make([]int, 4, 7)
 }
+
+
+/**
+*	Exemplifies appendation
+*/
+fund AddToSlice(appendToMe []int) []int {
+
+	appendToMe = append(appendToMe, 123)
+	appendToMe = append(appendToMe, 1, 2, 3)
+
+	return appendToMe
+}
+
+/**
+*	Use range syntax to loop over the given array several times
+*/
+func RangeLoopMe(loopMe []string) {
+	for i, value := range loopMe {
+		fmt.Printf('%d, %q', i, value)
+	}
+	for i := range loopMe {
+		fmt.Printf('%d', i)
+	}
+	for _, value := range loopMe {
+		fmt.Printf('%q', value)
+	}
+}
