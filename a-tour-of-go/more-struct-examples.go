@@ -12,10 +12,22 @@ import (
 *	Different logging levels
 */
 const (
-	Info = iota
-	Warning = iota
-	Error = iota
+	kLogLevelInfo = iota
+	kLogLevelWarning = iota
+	kLogLevelError = iota
 )
+
+
+/**
+*	Logger interface
+*/
+type Logger interface {
+
+	Info(log string, params ...string) error
+	Warn(log string, params ...string) error
+	Err(log string, params ...string) error
+
+}
 
 
 /**
@@ -24,6 +36,8 @@ const (
 *
 *	I realise that there is already a standard API for dealing with
 *	logging in GoLang, but its really just for demonstrational purposes.
+*
+*	Implements the Logger interface
 */
 type StdOutLogger struct {
 
@@ -64,9 +78,9 @@ func NewStdOutLogger() *StdOutLogger {
 func (logger *StdOutLogger) buildPrefix(level int) (string, error){
 
 	logLevelMap := map[int] string{
-		Info: "<I>",
-		Warning: "<W>",
-		Error: "<E>",
+		kLogLevelInfo: "<I>",
+		kLogLevelWarning: "<W>",
+		kLogLevelError: "<E>",
 	}
 
 	var formattedPrefix string
@@ -87,22 +101,12 @@ func (logger *StdOutLogger) buildPrefix(level int) (string, error){
 /**
 *	Creates a formatted log string from the given log level.
 */
-func (logger *StdOutLogger) formattedLogStr(log string, logLevel int) (formattedLog string, err error) {
-	formattedLog, err = logger.buildPrefix(logLevel)
-	return
-}
+func (logger *StdOutLogger) log(logLevel int, log string, params []string) error {
 
-
-/**
-*	Logs with the 'Info' prefix
-*
-*	@public
-*/
-func (logger *StdOutLogger) LogInfo(log string, params ...string) error {
-
-	formattedLog, err := logger.formattedLogStr(log, Info)
+	prefix, err := logger.buildPrefix(logLevel)
 
 	if err != nil {
+		formattedLog := fmt.Sprintf("%q %q", prefix, log)
 		fmt.Printf(formattedLog, params)
 	}
 
@@ -111,34 +115,33 @@ func (logger *StdOutLogger) LogInfo(log string, params ...string) error {
 
 
 /**
-*	Logs with the 'Warning' prefix
+*	Logs with the `Info` prefix
 *
 *	@public
 */
-func (logger *StdOutLogger) LogWarn(log string, params ...string) error {
+func (logger *StdOutLogger) Info(log string, params ...string) error {
 
-	formattedLog, err := logger.formattedLogStr(log, Warning)
-
-	if err != nil {
-		fmt.Printf(formattedLog, params)
-	}
-
-	return err
+	return logger.log(kLogLevelInfo, log, params);
 }
 
 
 /**
-*	Logs with the 'Error' prefix
+*	Logs with the `Warning` prefix
 *
 *	@public
 */
-func (logger *StdOutLogger) LogErr(log string, params ...string) error {
+func (logger *StdOutLogger) Warn(log string, params ...string) error {
 
-	formattedLog, err := logger.formattedLogStr(log, Error)
+	return logger.log(kLogLevelWarning, log, params);
+}
 
-	if err != nil {
-		fmt.Printf(formattedLog, params)
-	}
 
-	return err
+/**
+*	Logs with the `Error` prefix
+*
+*	@public
+*/
+func (logger *StdOutLogger) Err(log string, params ...string) error {
+
+	return logger.log(kLogLevelError, log, params);
 }
