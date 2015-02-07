@@ -45,7 +45,7 @@ type StdOutLogger struct {
 func NewStdOutLogger() *StdOutLogger {
 
 	logger := &StdOutLogger{
-		logPrefix: "Logger:"
+		LogPrefix: "Logger:",
 	}
 
 	return logger
@@ -61,27 +61,35 @@ func NewStdOutLogger() *StdOutLogger {
 *	@return error	An error or nil if no error occured
 *	@private
 */
-func (logger *StdOutLogger) buildPrefix(level int) (prefix string, err error){
+func (logger *StdOutLogger) buildPrefix(level int) (string, error){
 
-	logLevelMap = map[int] string{
+	logLevelMap := map[int] string{
 		Info: "<I>",
 		Warning: "<W>",
 		Error: "<E>",
 	}
 
-	formattedPrefix string
-	err error
+	var formattedPrefix string
+	var err error
 
-	levelStr, levelValid := logLevelMap
+	levelStr, levelValid := logLevelMap[level]
 
-	if !levelValid{
+	if !levelValid {
 		err = errors.New("Log level is invalid")
-	}
-	else{
-		formattedPrefix = fmt.Fprintf("%q: %q ...", logger.LogPrefix, levelStr)
+	} else {
+		formattedPrefix = fmt.Sprintf("%q: %q ...", logger.LogPrefix, levelStr)
 	}
 
 	return formattedPrefix, err
+}
+
+
+/**
+*	Creates a formatted log string from the given log level.
+*/
+func (logger *StdOutLogger) formattedLogStr(log string, logLevel int) (formattedLog string, err error) {
+	formattedLog, err = logger.buildPrefix(logLevel)
+	return
 }
 
 
@@ -90,8 +98,15 @@ func (logger *StdOutLogger) buildPrefix(level int) (prefix string, err error){
 *
 *	@public
 */
-func (logger *StdOutLogger) LogInfo() {
+func (logger *StdOutLogger) LogInfo(log string, params ...string) error {
 
+	formattedLog, err := logger.formattedLogStr(log, Info)
+
+	if err != nil {
+		fmt.Printf(formattedLog, params)
+	}
+
+	return err
 }
 
 
@@ -100,8 +115,15 @@ func (logger *StdOutLogger) LogInfo() {
 *
 *	@public
 */
-func (logger *StdOutLogger) LogWarn() {
+func (logger *StdOutLogger) LogWarn(log string, params ...string) error {
 
+	formattedLog, err := logger.formattedLogStr(log, Warning)
+
+	if err != nil {
+		fmt.Printf(formattedLog, params)
+	}
+
+	return err
 }
 
 
@@ -110,6 +132,13 @@ func (logger *StdOutLogger) LogWarn() {
 *
 *	@public
 */
-func (logger *StdOutLogger) LogErr() {
+func (logger *StdOutLogger) LogErr(log string, params ...string) error {
 
+	formattedLog, err := logger.formattedLogStr(log, Error)
+
+	if err != nil {
+		fmt.Printf(formattedLog, params)
+	}
+
+	return err
 }
