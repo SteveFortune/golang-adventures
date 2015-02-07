@@ -2,6 +2,7 @@
 package atourofgo
 
 import (
+	"math"
 	"math/cmplx"
 	"fmt"
 )
@@ -179,7 +180,7 @@ func RangeLoopMe(loopMe []string) {
 
 
 /**
-*	Map example
+*	Map declaration example
 */
 var dictionary = map[string] struct {
 	Property int
@@ -193,4 +194,33 @@ var dictionary = map[string] struct {
 		Property: 2,
 		AnotherProperty: "another thing",
 	},
+}
+
+
+/**
+*	Example of mutating our dictionary
+*/
+func MutateMyDictionary() {
+
+	muteDic := map[string] int {"One": 1, "Two": 2}
+	muteDic["Three"] = 4
+
+	delete(muteDic, "Three")
+
+	if one, ok := muteDic["One"]; ok {
+		fmt.Printf("The first thing: %d", one)
+	}
+}
+
+/**
+*	Example of func values
+*/
+func FuncValueExample() func(x float64) float64{
+	hypot := func(x, y float64) float64 {
+		return math.Sqrt(x*x + y*y)
+	}
+	closure := func(x float64) float64{
+		return hypot(x, 5)
+	}
+	return closure
 }
