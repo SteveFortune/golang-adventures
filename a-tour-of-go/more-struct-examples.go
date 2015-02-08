@@ -91,7 +91,7 @@ func (logger *StdOutLogger) buildPrefix(level int) (string, error){
 	if !levelValid {
 		err = errors.New("Log level is invalid")
 	} else {
-		formattedPrefix = fmt.Sprintf("%q: %q ...", logger.LogPrefix, levelStr)
+		formattedPrefix = fmt.Sprintf("%q: %q -- ", logger.LogPrefix, levelStr)
 	}
 
 	return formattedPrefix, err
@@ -111,6 +111,14 @@ func (logger *StdOutLogger) log(logLevel int, log string, params []string) error
 	}
 
 	return err
+}
+
+
+/**
+*	@see Stringer
+*/
+func (logger *StdOutLogger) String() string{
+	return fmt.Sprintf("%q ...")
 }
 
 
