@@ -8,7 +8,7 @@ This repo hosts a collection random snippets of go code that I've written in ord
 ###Reading List
 
 - <strike>`How to Write Go Code`</strike>
-- `A Tour of Go`
+- <strike>`A Tour of Go`</strike>
 - `The Go Programming Language Specification`
 - `Effective Go`
 
