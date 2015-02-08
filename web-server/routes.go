@@ -2,18 +2,15 @@
 package main
 
 
-type map[string] *RouteHandler RouteMap
-
-
 /**
 *	Our routing config... A big ol' dictionary of route keys paired
 *	with handlers
 */
 var RouteConfig = RouteMap{
-	"/welcome": &WelcomeHandler{},
-	"/about": &AboutHandler{},
-	"/info": &InfoHandler{},
+	"/welcome": WelcomeHandler{
+		title: "Welcome! To my first ever GoLang web server",
+		greeting: "I hope you enjoy your stay.",
+	},
+	"/about": AboutHandler("About us.."),
+	"/info": InfoHandler("Info.."),
 }
-
-
-func (routeMap *RouteMap) RegisterRoutes(app *WebApplication) {}

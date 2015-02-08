@@ -3,17 +3,14 @@ package main
 
 import (
 	"net/http"
-	"error"
+	"errors"
 )
 
 
-type map[string] *RouteHandler RouteMap
+type RouteMap map[string] http.Handler
 
 
-/**
-*	Our web application. There is
-*/
-type WebApplication struct {
+type WebServer struct {
 
 
 	/**
@@ -37,6 +34,8 @@ type WebApplication struct {
 
 	/**
 	*	The application's base path, e.g. `localhost:8080`
+	*
+	*	@private
 	*/
 	basePath string
 
@@ -46,12 +45,13 @@ type WebApplication struct {
 /**
 *	Has a handler already been registered against the given route?
 *
+*	@public
 *	@param 	route		The given route to query the underlying route
 *						map with
 *	@return	bool		Whether a handler exists for the route
 */
-func (app *WebApplication) RouteExists(route string) bool {
-	_, isOk = app.routeMap[route]
+func (app *WebServer) RouteExists(route string) bool {
+	_, isOk := app.routeMap[route]
 	return isOk
 }
 
@@ -61,20 +61,21 @@ func (app *WebApplication) RouteExists(route string) bool {
 *	Routes should be added before `Start` is called, otherwise an error
 *	will be returned.
 *
+*	@public
 *	@see 	AddRoutes
 *	@param	route		A web route in the format `/web/route`
 *	@param 	handler		Handler for the route
 *	@return	error		Not nil if the application has started already or
 *						a handler exists for the route already
 */
-func (app *WebApplication) AddRoute(route string, handler *RouteHandler) error {
+func (app *WebServer) AddRoute(route string, handler http.Handler) error {
 
 	var err error
 
 	if app.isRunning {
-		err = error.New("Web application is already running")
-	} else if app.routeExists(route) {
-		err = error.New("Route already exists, please remove it first")
+		err = errors.New("Web application is already running")
+	} else if app.RouteExists(route) {
+		err = errors.New("Route already exists, please remove it first")
 	} else {
 		app.routeMap[route] = handler
 	}
@@ -86,20 +87,21 @@ func (app *WebApplication) AddRoute(route string, handler *RouteHandler) error {
 /**
 *	Merges the given route map into the existing map.
 *
+*	@public
 *	@see 	AddRoute
 *	@param 	routeMap	The route map to merge into the underlying map
 *	@return	error		Not nil if the application has started already or
 *						a handler exists for any one of the routes already
 */
-func (app *WebApplication) AddRoutes(routeMap RouteMap) error {
+func (app *WebServer) AddRoutes(routeMap RouteMap) error {
 
 	if app.isRunning {
-		return error.New("Web application is already running")
+		return errors.New("Web application is already running")
 	}
 
-	for route, handler := range routeMap {
-		if app.routeExists(route) {
-			return error.New("Route in map already exists.")
+	for route, _ := range routeMap {
+		if app.RouteExists(route) {
+			return errors.New("Route in map already exists.")
 		}
 	}
 
@@ -112,35 +114,53 @@ func (app *WebApplication) AddRoutes(routeMap RouteMap) error {
 }
 
 
-func (app *WebApplication) Start() error {
+/**
+*	Starts the listening of the web server
+*
+*	@public
+*	@return	error		Not nil if an error occurs on listen
+*/
+func (app *WebServer) Start() error {
 
 	for route, handler := range app.routeMap {
-		err = http.ListenAndServer(app.bastPath)
+		http.Handle(route, handler)
 	}
 
-	return http.ListenAndServer(app.bastPath)
+	return http.ListenAndServe(app.basePath, nil)
 }
 
 
-func (app *WebApplication) Stop() error {
-
-	///... hmmm how do I do this... do I even want to do this?
+/**
+*	Is the web server current running ?
+*
+*	@return	bool
+*/
+func (app *WebServer) IsRunning() bool {
+	return app.isRunning
 }
 
 
-func (app *WebApplication) Restart() error {
-
-}
-
-
-func NewWithRoutes(basePath string, routeMap *RouteMap) *WebApplication {
-	return &WebApplication{
+/**
+*	Inits the a web application with a route map.
+*
+*	@param	baseBath
+*	@param 	routeMap
+*	@return *WebServer		The new web application
+*/
+func NewWithRoutes(basePath string, routeMap RouteMap) *WebServer {
+	return &WebServer{
 		routeMap: routeMap,
 		basePath: basePath,
 	}
 }
 
 
-func New(basePath string) *WebApplication {
+/**
+*	Inits a web application with an empty route map
+*
+*	@param	baseBath
+*	@return *WebServer		The new web application
+*/
+func New(basePath string) *WebServer {
 	return NewWithRoutes(basePath, RouteMap{})
 }
