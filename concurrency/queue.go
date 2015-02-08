@@ -20,12 +20,14 @@ func (queue *MessageQueue) PushLogger(logger BirthdayLogger) {
 
 
 func (queue *MessageQueue) Process() {
+	second := 1000*time.Millisecond
 	go func () {
 		for _, msg := range queue.messages {
 			for _, logger := range queue.loggers {
 				msg(logger)
-				time.Sleep(1000*time.Millisecond)
 			}
+			time.Sleep(second)
 		}
 	}()
+	time.Sleep(second*time.Duration(len(queue.messages)))
 }

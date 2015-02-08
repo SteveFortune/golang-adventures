@@ -15,7 +15,7 @@ func main() {
 	queue.PushMessage(HappyBirthdayToYou)
 	queue.PushMessage(HappyBirthdayDearBen)
 	queue.PushMessage(HappyBirthdayToYou)
-	queue.Process()
 
 	fmt.Printf("Processing birthday queue...\n")
+	queue.Process()
 }
